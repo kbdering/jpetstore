@@ -34,7 +34,7 @@
     </bean>
 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-    <property name="url" value="jdbc:mysql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}" />
+    <property name="url" value="jdbc:mysql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}?useSSL=false&amp;allowPublicKeyRetrieval=true" />
     <property name="username" value="${DATABASE_USER}" />
     <property name="password" value="${DATABASE_PASSWORD}" />
 </bean>
