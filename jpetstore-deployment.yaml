@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: jpetstore
-        image: 192.168.49.1:5000/my-jpetstore:latest
+        image: 192.168.1.40:5200/my-jpetstore:latest
         env:
         - name: DATABASE_HOST
           value: mysql

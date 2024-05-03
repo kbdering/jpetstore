@@ -1,1 +1,1 @@
-docker run -d -p 5000:5000 registry
+docker run -d -p 5200:5000 registry

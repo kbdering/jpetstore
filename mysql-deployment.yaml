@@ -13,19 +13,6 @@ spec:
       labels:
         app: mysql
     spec:
-      initContainers:
-      - name: init-db
-        image: mysql:latest
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: yourpassword
-        - name: MYSQL_DATABASE
-          value: jpetstore
-        volumeMounts:
-        - name: mysql-persistent-storage
-          mountPath: /var/lib/mysql
-        - name: config-volume
-          mountPath: /docker-entrypoint-initdb.d
       containers:
       - image: mysql:latest
         name: mysql

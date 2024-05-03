@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jpetstore-db-setup
+spec:
+  template:
+    spec:
+      containers:
+      - name: db-init
+        image: mysql:latest
+        command: ['sh', '-c', '
+          echo "Waiting for MySQL to become ready...";
+          until mysql -h mysql -u root -p"$MYSQL_ROOT_PASSWORD" -e "SELECT 1"; do
+            sleep 5;
+          done;
+          echo "MySQL is ready.";
+          for file in /sql-scripts/*.sql; do
+            echo "Executing $file";
+            mysql -h mysql -u root -p"$MYSQL_ROOT_PASSWORD" -D jpetstore < "$file" && echo "Successfully executed $file";
+          done;
+        ']
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: yourpassword
+        volumeMounts:
+        - name: sql-scripts
+          mountPath: /sql-scripts
+      restartPolicy: OnFailure
+      volumes:
+      - name: sql-scripts
+        configMap:
+          name: jpetstore-sql
