@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: jpetstore-db-setup
+  name: jpetstore-user-setup
 spec:
   template:
     spec:
@@ -14,7 +14,7 @@ spec:
             sleep 5;
           done;
           echo "MySQL is ready.";
-          for file in /sql-scripts/*.sql; do
+          for file in /user-scripts/*.sql; do
             echo "Executing $file";
             mysql -h mysql -u root -p"$MYSQL_ROOT_PASSWORD" -D jpetstore < "$file" && echo "Successfully executed $file";
           done;
@@ -23,10 +23,10 @@ spec:
         - name: MYSQL_ROOT_PASSWORD
           value: yourpassword
         volumeMounts:
-        - name: sql-scripts
-          mountPath: /sql-scripts
+        - name: user-scripts
+          mountPath: /user-scripts
       restartPolicy: OnFailure
       volumes:
-      - name: sql-scripts
+      - name: user-scripts
         configMap:
-          name: jpetstore-sql
+          name: users-sql
