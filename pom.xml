@@ -285,8 +285,15 @@
               <properties>
                 <cargo.daemon.url>http://localhost:18000</cargo.daemon.url>
                 <cargo.daemon.handleid>${project.artifactId}</cargo.daemon.handleid>
+                <cargo.jvmargs>${JAVA_OPTIONS}</cargo.jvmargs>
               </properties>
             </daemon>
+            <configuration>
+              <properties>
+                <cargo.start.jvmargs>${JAVA_OPTIONS}</cargo.start.jvmargs>
+                <cargo.jvmargs>${JAVA_OPTIONS}</cargo.jvmargs>
+              </properties>
+              </configuration>
           </configuration>
         </plugin>
       </plugins>

@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jpetstore-ingress
+  annotations:
+    # --- Nginx Ingress Specific Annotations for Session Affinity ---
+    nginx.ingress.kubernetes.io/affinity: "cookie"                 # Enable cookie-based affinity
+    nginx.ingress.kubernetes.io/session-cookie-name: "JSESSIONID" # Name of the cookie the ingress controller will set (choose a suitable name)
+    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"        # Hashing algorithm for the cookie value
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"   # Optional: Cookie expiry time in seconds (e.g., 2 days)
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"   # Optional: Max-age attribute for the cookie
+    nginx.ingress.kubernetes.io/session-cookie-samesite: "Lax"     # Optional: SameSite attribute (Lax or Strict recommended)
+    # nginx.ingress.kubernetes.io/session-cookie-secure: "true"    # Optional: Set if using HTTPS
+    # nginx.ingress.kubernetes.io/session-cookie-path: "/"         # Optional: Path for the cookie
+    # -------------------------------------------------------------
+spec:
+  ingressClassName: nginx # Or your specific Ingress Class name
+  rules:
+  - host: jpetstore.perfluencer.pl # Your application's domain
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: jpetstore-service # The name of the Kubernetes Service (from Method 1, but WITHOUT sessionAffinity: ClientIP)
+            port:
+              number: 8080        # The port the Service listens on
+  # tls: # Optional: Configure TLS/HTTPS
+  # - hosts:
+  #   - jpetstore.example.com
+  #   secretName: jpetstore-tls-secret
